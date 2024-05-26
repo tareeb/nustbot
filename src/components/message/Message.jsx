@@ -6,7 +6,7 @@ function Message({text , user}) {
     return (
         <div className={`message ${user ? 'left' : 'right'}`}>
             <div className={`messagecontainer ${user ? 'left' : 'right'}`}>
-                    <h3>{user ? 'You' : 'Nust Bot'}</h3>
+                    <h3>{user ? 'You' : 'Bot'}</h3>
                     <p>{text}</p>
             </div>
         </div>

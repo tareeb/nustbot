@@ -5,18 +5,18 @@ import API_BASE_URL from "@/config"
 
 import { useState } from "react"
 
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { toast } from "sonner";
 
 import Title from "@/components/Title/Title";
 
 
-function Chat2() {
+function ChatAdvanced() {
 
     const [ input , setInput] = useState("")
     const [ messages , setMessages] = useState([])
-    // const { chatbotname } = useParams();
+    const { chatbotname } = useParams();
     const [ loading , setLoading] = useState(false);
 
 
@@ -41,7 +41,7 @@ function Chat2() {
 
         setLoading(true);
 
-        const response = await fetch(`${API_BASE_URL}/advance_chat/`, {
+        const response = await fetch(`${API_BASE_URL}/${chatbotname}/advance_chat/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ function Chat2() {
 
     return (
       <div className="chatpage">
-        <Title title={"National University of Sciecne and Technology"} />
+        <Title title={chatbotname} />
         <div className="px-4 md:px-10 lg:px-40">
           <ChatBox 
               setInput={setInput}
@@ -85,5 +85,5 @@ function Chat2() {
     )
   }
   
-  export default Chat2
+  export default ChatAdvanced
   

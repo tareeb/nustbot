@@ -17,7 +17,7 @@ const Home = () => {
                             <img src={logo}></img>
                         </div>
                         <nav className="flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
-                            <Link to="/" className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">Browse All</Link>
+                            <Link to="/browseall" className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">Browse All</Link>
                         </nav>
                     </div>
 

@@ -21,15 +21,15 @@ const Admin = () => {
                     <Title title="Admin Page" />
                 </div>
                 <div>
-                    <div className="px-4 md:px-10 lg:px-40 py-10">
+                    <div className="px-4 md:px-10 lg:px-40 py-8">
                         <ButtonContainer title="Create a New Chatbot">
                             <CreateChatbot setchatbots={setchatbots} />
                         </ButtonContainer>
                     </div>
-                    <div className="px-4 md:px-10 lg:px-40 py-10">
+                    <div className="px-4 md:px-10 lg:px-40 py-8">
                         <ChatbotGrid chatbots={chatbots} setchatbots={setchatbots}/>
                     </div>
-                    <div className="px-4 md:px-10 lg:px-40 py-10">
+                    <div className="px-4 md:px-10 lg:px-40 py-8">
                         <ButtonContainer title="Actions">
                             <Button variant="secondary" onClick={logout} >logout</Button>
                         </ButtonContainer>

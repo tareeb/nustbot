@@ -20,12 +20,17 @@ const Chatbot = () => {
             
             <Title title={chatbotname} />
 
-            <div className="px-4 md:px-10 lg:px-40 py-10 space-y-7" >
+            <div className="px-4 md:px-10 lg:px-40 py-8 space-y-7" >
 
                 <ButtonContainer title="Actions">
-                    <Button asChild>
-                        <Link to={`/chat/${chatbotname}`}>Start Chat</Link>
-                    </Button>
+                    <div className="lg:space-x-5 lg:space-y-0 lg:block space-y-4 flex flex-col">
+                        <Button asChild>
+                            <Link to={`/chat/${chatbotname}`}>Start SwiftChat</Link>
+                        </Button>
+                        <Button asChild>
+                            <Link to={`/chatadvanced/${chatbotname}`}>Start AdvancedChat</Link>
+                        </Button>
+                    </div>
                 </ButtonContainer>
                   
                 <DocumentComponent />
