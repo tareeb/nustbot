@@ -2,18 +2,21 @@
     display: flex;
 }
 
-.messagecontent{
-    padding: 2px 5px;
+.messagecontainer{
+    padding: 10px 20px;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 1px solid #888;
+    box-shadow: 0 0 5px #888;
 }
 
-.messagecontent p{
+.messagecontainer p{
     margin: 0;
     font-size: 15px;
+    letter-spacing: 0.5px;
+    line-height: 1.75;
 }
 
-.messagecontent h3{
+.messagecontainer h3{
     font-weight:500;
 }
 
@@ -25,12 +28,12 @@
     justify-content: flex-end;
 }
 
-.messagecontent.right{
+.messagecontainer.right{
     background-color: rgb(241, 245, 249);
     margin-right: 10%;
 }
 
-.messagecontent.left{
+.messagecontainer.left{
     background-color: rgb(203, 213, 225);
     margin-left: 10%;
 }

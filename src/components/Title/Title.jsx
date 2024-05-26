@@ -8,8 +8,8 @@ const Title = ({title}) => {
             color: 'white',
             fontSize: '25px',
             fontWeight: 500,
-            padding: '10px',
-            backgroundColor: 'rgb(100, 116, 139)'
+            padding: '15px',
+            backgroundColor: '#2c3e50',
         }}>{title}</h1>
     );
 };

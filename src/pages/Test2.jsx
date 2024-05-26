@@ -1,62 +1,45 @@
 import API_BASE_URL from "@/config"
+import { useContext } from 'react';
+import { CsrfTokenContext } from "@/context/CsrfTokenContext";
 
 const Test = () => {
 
-    async function getResponse() {
+      const { csrfToken  } = useContext(CsrfTokenContext);
+
+    
+      async function createChatbot() {
         try {
-          const response = await fetch(`${API_BASE_URL}/login/`, {
+          const response = await fetch(`${API_BASE_URL}/createchatbot/`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username: "NustAdmin" , password: "nust1234" }),
-          });
-          
-          if (!response.ok) {
-            throw new Error('Failed to send message');
-          }
-      
-          const data = await response.json();
-          console.log(data);
-          return data.response;
-        } catch (error) {
-          console.error('Error sending message:', error);
-          throw error; 
-        }
-      }
-
-      async function getResponse2() {
-        try {
-          const response = await fetch(`${API_BASE_URL}/hello/`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-          });
-          
-          if (!response.ok) {
-            throw new Error('Failed to send message');
-          }
-      
-          const data = await response.json();
-          console.log(data);
-          return data.response;
-        } catch (error) {
-          console.error('Error sending message:', error);
-          throw error; 
-        }
-      }
-
-      async function getResponse3() {
-        try {
-          const response = await fetch(`${API_BASE_URL}/createChatbot/`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+               'Authorization': `Token ${csrfToken}`,
             },
             body: JSON.stringify({ chatbotname: "project1" }),
-            credentials: 'include'
+          });
+          
+          if (!response.ok) {
+            throw new Error('Failed to send message');
+          }
+      
+          const data = await response.json();
+          console.log(data);
+          return data.response;
+        } catch (error) {
+          console.error('Error sending message:', error);
+          throw error; 
+        }
+      }
+    
+      //getallchatbots
+
+      async function getallchatbots() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/getallchatbots/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           });
           
           if (!response.ok) {
@@ -72,20 +55,42 @@ const Test = () => {
         }
       }
 
+      //chatbotbyuser
+
+      async function chatbotbyuser() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/chatbotbyuser/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${csrfToken}`,
+            },
+          });
+          
+          if (!response.ok) {
+            throw new Error('Failed to send message');
+          }
+      
+          const data = await response.json();
+          console.log(data);
+          return data.response;
+        } catch (error) {
+          console.error('Error sending message:', error);
+          throw error; 
+        }
+      }
     
 
     return (
         <div>
             <h1>Test Page</h1>
-
-            <button onClick={getResponse}>Login</button>
-            <br></br>
-
-            <button onClick={getResponse2} > AUTH HELLO </button>
-            <br></br>
             
-            <button onClick={getResponse3} > click </button>
-            
+            <button onClick={createChatbot} > createChatbot </button>
+
+            <button onClick={getallchatbots} > getallchatbots </button>
+
+            <button onClick={chatbotbyuser} > chatbotbyuser </button>
+
         </div>
     );
 };

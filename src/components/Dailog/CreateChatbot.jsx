@@ -2,7 +2,6 @@ import { useState } from 'react';
 import API_BASE_URL from "@/config";
 import { useContext } from 'react';
 import { CsrfTokenContext } from "@/context/CsrfTokenContext";
-import { useParams } from 'react-router-dom';
 
 import { toast } from "sonner"
 import {
@@ -21,96 +20,93 @@ import { Label } from "@/components/ui/label"
 
 import propTypes from 'prop-types';
 
-const PdfInput = ({setDocuments}) => {
+const CreateChatbot = ({setchatbots}) => {
 
-    const { chatbotname } = useParams();
-
+    
     const { csrfToken  } = useContext(CsrfTokenContext);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [loading , setLoading] = useState(false);
+    const [ input , setInput ] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    
 
+    const createchatbot = async () => {
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
-    };
-
-    const submitFile = async (selectedFile) => {
-
-        if (!selectedFile) {
-          toast("Please Select a PDF file.");
-          return;
+        
+        if (!input) {
+            toast("Please write a name for chatbot.");
+            return;
         }
-
-        setLoading(true);
-      
+        
+        setIsLoading(true);
+        
         try {
-          const formData = new FormData();
-          formData.append('docs', selectedFile);
-      
-          const response = await fetch(`${API_BASE_URL}/${chatbotname}/adddocument/`, {
+          console.log(input);
+
+          const response = await fetch(`${API_BASE_URL}/createchatbot/`, {
             method: 'POST',
-            body: formData,
+            body: JSON.stringify({ chatbotname: input }),
             headers: {
-               'Authorization': `Token ${csrfToken}`,
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${csrfToken}`,
             },
           });
 
           if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || "Failed to submit file");
+            throw new Error(errorData.message || "Failed to create new chatbot");
           }
         
           const data = await response.json();
+          console.log(data);
           console.log(data.message); 
-
-          toast("File Submitted Successfully");
-          setDocuments(prevvalue => [...prevvalue, data.data])
           setIsOpen(false);
+          
+          setchatbots((prevData) => ([...prevData, data.data]));
+          
+          toast("Chatbot Created Successfully");
 
         } catch (error) {
           console.error('Error submitting file:', error);
-          toast.error(error || "Failed to submit file");
+          toast.error(error || "Failed to create new chatbot");
           
         } finally {
-          setSelectedFile(null);
-          setLoading(false);
+          setInput("");   
+          setIsLoading(false);
         }
 
-        
       };
       
 
     return (
    
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button onClick={() => setIsOpen(true)}>Add New Document</Button>
+          <Button onClick={() => setIsOpen(true)}>Create</Button>
         </DialogTrigger>
         
         <DialogContent className="sm:max-w-[425px]">
         
         <DialogHeader>
-          <DialogTitle>Add New Document</DialogTitle>
+          <DialogTitle>Create New Chatbot</DialogTitle>
           <DialogDescription>
-            Upload a new PDF document to add in Knowledge Base.
+            Please write a name that you want to give to your chatbot.
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             
-            <Label htmlFor="fileInput" className="text-right">
-              PDF Input
+            <Label htmlFor="name" className="text-right">
+              Name : 
             </Label>
 
             <Input
-              id="fileInput"
+              id="name"
               className="col-span-3"
-              type="file"
+              type="text"
+              value={input}
               accept="application/pdf" 
-              onChange={handleFileChange}
+              onChange={(e) => setInput(e.target.value)}
             />
 
           </div>
@@ -118,13 +114,13 @@ const PdfInput = ({setDocuments}) => {
         
         <DialogFooter>
           
-          <Button onClick={() => submitFile(selectedFile)} disabled={loading}>
-            {loading ? "Uploading..." : "Submit"}
+          <Button onClick={createchatbot} disabled={isLoading}>
+            {isLoading ? "Creating..." : "Create"}
           </Button>
 
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Back
+            <Button type="button" variant="secondary"> 
+              Cancel
             </Button>
           </DialogClose>
 
@@ -136,9 +132,8 @@ const PdfInput = ({setDocuments}) => {
     );
 };
 
-PdfInput.propTypes = {
-    setDocuments: propTypes.func.isRequired,
-};
+CreateChatbot.propTypes = {
+    setchatbots: propTypes.func.isRequired,
+}
 
-export default PdfInput;
-
+export default CreateChatbot;

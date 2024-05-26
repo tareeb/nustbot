@@ -8,3 +8,13 @@
 
     background-color: rgb(241, 245, 249);
 }
+
+.DocumentCard p{
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    word-wrap: break-word; /* Fallback for older browsers */
+}
+
+.DocumentCard:hover{
+    background-color: rgb(230, 235, 240);
+}
