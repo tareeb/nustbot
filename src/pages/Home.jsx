@@ -4,10 +4,15 @@ import { Link } from 'react-router-dom';
 import bannerImage from "@/assets/background.png"
 import logo from "@/assets/logo1.png"
 
+import Sidebot from "@/components/SideBot/Sidebot";
+
 const Home = () => {
     return (
         <>
             <div className="homepage">
+
+            {/* SideBot */}
+            <Sidebot />
 
             {/* <!-- Navbar --> */}
             <section className="w-full px-8 text-gray-700 bg-white">

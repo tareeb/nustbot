@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 
 
-function ChatInput({setInput , onSend , input , loading}) {
+function ChatInput({setInput , onSend , input , loading , sidebot}) {
   
     const handleChange = (e) => {
       setInput(e.target.value);
@@ -23,7 +23,7 @@ function ChatInput({setInput , onSend , input , loading}) {
     }
 
     return (
-      <div className="chatinput">
+      <div className= {sidebot ? "smallChatInput" : "chatinput"} >
         <textarea placeholder="Enter Your Query Here ?" 
             onChange={handleChange}  
             value={input}
@@ -44,8 +44,13 @@ ChatInput.propTypes = {
     setInput: PropTypes.func.isRequired,
     input: PropTypes.string.isRequired,
     onSend: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    sidebot: PropTypes.bool
 }
+
+ChatInput.defaultProps = {
+  sidebot: false
+};
   
 export default ChatInput
   

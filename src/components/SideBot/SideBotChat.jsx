@@ -1,5 +1,3 @@
-import "./Page.css";
-
 import ChatBox from "@/components/chatbox/ChatBox"
 import API_BASE_URL from "@/config"
 
@@ -8,11 +6,10 @@ import { useParams } from 'react-router-dom';
 
 import { toast } from "sonner";
 
-import Title from "@/components/Title/Title";
 
 
 
-function Chat() {
+function SideBotChat() {
 
     const [ input , setInput] = useState("")
     const [ messages , setMessages] = useState([])
@@ -73,20 +70,18 @@ function Chat() {
     
 
     return (
-      <div className="chatpage">
-        <Title title={chatbotname} />
-        <div className="px-4 md:px-10 lg:px-40">
+        <div className="px-2 h-full bg-gray-200 ">
           <ChatBox 
               setInput={setInput}
               messages={messages}
               input={input}
               onSend={sendMessage}
               loading={loading}
+              sidebot={true}
           ></ChatBox>
         </div>
-      </div>
     )
   }
   
-  export default Chat
+  export default SideBotChat
   
