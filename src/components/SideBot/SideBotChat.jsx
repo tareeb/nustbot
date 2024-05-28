@@ -70,7 +70,7 @@ function SideBotChat() {
     
 
     return (
-        <div className="px-2 h-full bg-gray-200 ">
+        <div className="px-2 h-full bg-slate-200 ">
           <ChatBox 
               setInput={setInput}
               messages={messages}

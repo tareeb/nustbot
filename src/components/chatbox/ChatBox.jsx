@@ -38,5 +38,9 @@ ChatBox.propTypes = {
     sidebot: PropTypes.bool
 };
 
+ChatBox.defaultProps = {
+    sidebot: false
+};
+
 export default ChatBox
   

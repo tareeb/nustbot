@@ -30,7 +30,6 @@ function ChatAdvanced() {
         })
         .catch((error) => {
           console.error('Error sending message:', error);
-          toast.error('Failed to send message');
         });
 
         setInput("");
@@ -52,18 +51,23 @@ function ChatAdvanced() {
         });
         
         if (!response.ok) {
-          throw new Error('Failed to send message');
-        }
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error in Sending Message");
+      }
     
         const data = await response.json();
         console.log(data);
         
-        setLoading(false);
         return data.response;
 
       } catch (error) {
-        console.error('Error sending message:', error);
+            console.error('Error in Sending Message:', error);
+            toast.error(error || "Error in Sending Message");
         throw error; 
+
+      } finally {
+        setLoading(false);
+
       }
 
     }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner";
 
 
 function ChatInput({setInput , onSend , input , loading , sidebot}) {
@@ -19,6 +20,12 @@ function ChatInput({setInput , onSend , input , loading , sidebot}) {
         setInput("");
         return
       }
+
+      if(input.length > 700) {
+        toast.error("Message is too long. Limit 700 Chars");
+        return
+      }
+
       onSend();
     }
 
