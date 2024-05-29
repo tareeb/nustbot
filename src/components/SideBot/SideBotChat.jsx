@@ -2,18 +2,14 @@ import ChatBox from "@/components/chatbox/ChatBox"
 import API_BASE_URL from "@/config"
 
 import { useState } from "react"
-import { useParams } from 'react-router-dom';
 
 import { toast } from "sonner";
-
-
 
 
 function SideBotChat() {
 
     const [ input , setInput] = useState("")
     const [ messages , setMessages] = useState([])
-    const { chatbotname } = useParams();
     const [ loading , setLoading] = useState(false);
 
 
@@ -27,7 +23,6 @@ function SideBotChat() {
         })
         .catch((error) => {
           console.error('Error sending message:', error);
-          toast.error('Failed to send message');
         });
 
         setInput("");
@@ -38,7 +33,7 @@ function SideBotChat() {
 
         setLoading(true);
 
-        const response = await fetch(`${API_BASE_URL}/${chatbotname}/chat/`, {
+        const response = await fetch(`${API_BASE_URL}/supportbot/chat/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -49,7 +44,8 @@ function SideBotChat() {
         });
         
         if (!response.ok) {
-          throw new Error('Failed to send message');
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error in Sending Message");
         }
     
         const data = await response.json();
@@ -58,7 +54,8 @@ function SideBotChat() {
         return data.response;
 
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error('Error in Sending Message:', error);
+        toast.error(error || "Error in Sending Message");
         throw error; 
 
       } finally {

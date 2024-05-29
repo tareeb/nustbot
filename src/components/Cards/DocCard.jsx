@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button"
 
 const DocCard = ({fileName , removeDocument}) => {
 
-    const { csrfToken  } = useContext(CsrfTokenContext);
+    const { csrfToken , handleUnauthorized  } = useContext(CsrfTokenContext);
     const { chatbotname } = useParams();
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +62,10 @@ const DocCard = ({fileName , removeDocument}) => {
             });
 
             if (!response.ok) {
+                if (response.status === 401) {
+                    handleUnauthorized();
+                    return;
+                  }
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Error in Removing Document");
             }

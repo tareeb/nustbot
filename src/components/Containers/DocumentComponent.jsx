@@ -14,7 +14,7 @@ const DocumentComponent = () => {
 
     const { chatbotname } = useParams();
     
-    const { csrfToken  } = useContext(CsrfTokenContext);
+    const { csrfToken  , handleUnauthorized } = useContext(CsrfTokenContext);
     
     const [ documents , setDocuments ]= useState([]);
     
@@ -35,6 +35,10 @@ const DocumentComponent = () => {
             });
 
             if (!response.ok) {
+                if (response.status === 401) {
+                    handleUnauthorized();
+                    return;
+                  }
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Failed to Fetch Data");
             }

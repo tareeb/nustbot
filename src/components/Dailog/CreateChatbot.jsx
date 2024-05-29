@@ -23,7 +23,7 @@ import propTypes from 'prop-types';
 const CreateChatbot = ({setchatbots}) => {
 
     
-    const { csrfToken  } = useContext(CsrfTokenContext);
+    const { csrfToken  , handleUnauthorized } = useContext(CsrfTokenContext);
     const [ input , setInput ] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +52,10 @@ const CreateChatbot = ({setchatbots}) => {
           });
 
           if (!response.ok) {
+            if (response.status === 401) {
+              handleUnauthorized();
+              return;
+            }
             const errorData = await response.json();
             throw new Error(errorData.message || "Failed to create new chatbot");
           }

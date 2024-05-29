@@ -10,7 +10,7 @@ import propTypes from 'prop-types';
 
 const ChatbotGrid = ({chatbots , setchatbots}) => {
 
-    const { csrfToken } = useContext(CsrfTokenContext);
+    const { csrfToken , handleUnauthorized } = useContext(CsrfTokenContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,6 +32,10 @@ const ChatbotGrid = ({chatbots , setchatbots}) => {
             console.log("helloe" , response);
 
             if (!response.ok) {
+                if (response.status === 401) {
+                    handleUnauthorized();
+                    return;
+                  }
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Failed to Fetch Data");
             }

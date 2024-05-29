@@ -54,7 +54,7 @@ function Chat() {
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Error in Sending Message");
-      }
+        }
     
         const data = await response.json();
         console.log(data);

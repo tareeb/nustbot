@@ -3,12 +3,9 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
-import { CsrfTokenProvider } from "@/context/CsrfTokenContext";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <CsrfTokenProvider>
       <App />
-    </CsrfTokenProvider>
   </React.StrictMode>,
 )

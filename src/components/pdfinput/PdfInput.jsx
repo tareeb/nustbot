@@ -25,7 +25,7 @@ const PdfInput = ({setDocuments}) => {
 
     const { chatbotname } = useParams();
 
-    const { csrfToken  } = useContext(CsrfTokenContext);
+    const { csrfToken , handleUnauthorized } = useContext(CsrfTokenContext);
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading , setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +58,10 @@ const PdfInput = ({setDocuments}) => {
           });
 
           if (!response.ok) {
+            if (response.status === 401) {
+              handleUnauthorized();
+              return;
+            }
             const errorData = await response.json();
             throw new Error(errorData.message || "Failed to submit file");
           }

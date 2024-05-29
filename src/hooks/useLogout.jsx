@@ -27,14 +27,15 @@ const useLogout = () => {
 
             const data = await response.json();
             toast.success(data.message || "Logged out successfully");
-
-            contextLogout();
-
-            navigate('/');
             
         } catch (error) {
             console.error('Error logging out:', error);
             toast.error(error.message || "Failed to log out");
+        } finally{
+
+            contextLogout();
+            navigate('/');
+            
         }
     };
 
