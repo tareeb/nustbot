@@ -10,7 +10,9 @@ const Title = ({title}) => {
             <img src={logo} alt="Logo" />
         </Link>
         <h1 className="text-white text-2xl font-medium py-4 w-full text-center">
-            {title}
+            {
+                title === "nustbot" ? "National University of Sciences and Technology" : title
+            }
         </h1>
     </div>
   

@@ -33,7 +33,7 @@ function SideBotChat() {
 
         setLoading(true);
 
-        const response = await fetch(`${API_BASE_URL}/supportbot/chat/`, {
+        const response = await fetch(`${API_BASE_URL}/customerservicebot/chat/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
