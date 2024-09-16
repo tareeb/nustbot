@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recursive Character Text Splitter - Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .controls {
+      margin-bottom: 20px;
+    }
+    .controls label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .controls input[type="number"],
+    .controls select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .chunks {
+      margin-top: 20px;
+    }
+    .chunk {
+      background-color: #e0f7fa;
+      border: 1px solid #006064;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .chunk h4 {
+      margin: 0 0 5px 0;
+      font-size: 14px;
+      color: #004d40;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Recursive Character Text Splitter - Test</h1>
+
+  <textarea id="textInput">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.
+
+Sed posuere consectetur est at lobortis. Aenean lacinia bibendum nulla sed consectetur.
+
+Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper.
+
+Maecenas sed diam eget risus varius blandit sit amet non magna. Donec ullamcorper nulla non metus auctor fringilla.
+
+Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+
+Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+  </textarea>
+
+  <div class="controls">
+    <label for="chunkSize">Chunk Size (max characters per chunk):</label>
+    <input type="number" id="chunkSize" value="100" min="10" max="1000">
+
+    <label for="chunkOverlap">Chunk Overlap (characters):</label>
+    <input type="number" id="chunkOverlap" value="20" min="0" max="1000">
+
+    <label for="separator">Separator:</label>
+    <select id="separator">
+      <option value="paragraph">New Paragraph</option>
+      <option value="newline">New Line</option>
+      <option value="space">Space</option>
+    </select>
+  </div>
+
+  <button id="splitButton">Split Text</button>
+
+  <div id="error" class="error"></div>
+
+  <div class="chunks" id="chunksContainer">
+    <!-- Chunks will appear here -->
+  </div>
+</div>
+
+<script>
+  /**
+   * Recursive Character Text Splitter Function
+   * Splits the input text into chunks based on chunkSize, chunkOverlap, and separators.
+   */
+  function RecursiveCharacterTextSplitter(text, options) {
+    const { chunkSize, chunkOverlap, separators } = options;
+
+    console.log("Starting chunking...");
+
+    const chunks = [];
+    let startIndex = 0;
+
+    // Prevent infinite loop by setting a maximum number of iterations
+    const MAX_ITERATIONS = 10000;
+    let iterations = 0;
+
+    while (startIndex < text.length) {
+      iterations++;
+      if (iterations > MAX_ITERATIONS) {
+        console.error("Maximum iterations reached. Possible infinite loop.");
+        break;
+      }
+
+      let endIndex = startIndex + chunkSize;
+      if (endIndex > text.length) {
+        endIndex = text.length;
+      } else {
+        // Find the nearest separator
+        let nearestSeparatorIndex = -1;
+        for (const sep of separators) {
+          const idx = text.lastIndexOf(sep, endIndex);
+          if (idx > startIndex && idx > nearestSeparatorIndex) {
+            nearestSeparatorIndex = idx + sep.length;
+          }
+        }
+        if (nearestSeparatorIndex > startIndex) {
+          endIndex = nearestSeparatorIndex;
+        }
+      }
+
+      const chunk = text.slice(startIndex, endIndex);
+      chunks.push(chunk);
+
+      startIndex = endIndex - chunkOverlap;
+
+      // Prevent negative or zero step
+      if (startIndex <= endIndex - chunkOverlap) {
+        startIndex = endIndex;
+      }
+    }
+
+    return chunks;
+  }
+
+  document.getElementById('splitButton').addEventListener('click', function() {
+    // Clear previous error and chunks
+    document.getElementById('error').textContent = '';
+    document.getElementById('chunksContainer').innerHTML = '';
+
+    const text = document.getElementById('textInput').value.trim();
+    const chunkSize = parseInt(document.getElementById('chunkSize').value, 10);
+    const chunkOverlap = parseInt(document.getElementById('chunkOverlap').value, 10);
+    const separatorOption = document.getElementById('separator').value;
+
+    // Validate inputs
+    if (isNaN(chunkSize) || chunkSize <= 0) {
+      document.getElementById('error').textContent = 'Invalid Chunk Size. It must be a positive number.';
+      return;
+    }
+    if (isNaN(chunkOverlap) || chunkOverlap < 0) {
+      document.getElementById('error').textContent = 'Invalid Chunk Overlap. It must be zero or a positive number.';
+      return;
+    }
+    if (chunkOverlap >= chunkSize) {
+      document.getElementById('error').textContent = 'Chunk Overlap must be smaller than Chunk Size to prevent infinite loops.';
+      return;
+    }
+
+    // Define separators based on selection
+    const separatorsMap = {
+      'paragraph': ["\n\n", "\n", " "],
+      'newline': ["\n", " "],
+      'space': [" "],
+    };
+    const separators = separatorsMap[separatorOption] || ["\n\n", "\n", " "];
+
+    // Perform splitting
+    const splitChunks = RecursiveCharacterTextSplitter(text, {
+      chunkSize,
+      chunkOverlap,
+      separators,
+    });
+
+    // Display chunks
+    const chunksContainer = document.getElementById('chunksContainer');
+    splitChunks.forEach((chunk, index) => {
+      const chunkDiv = document.createElement('div');
+      chunkDiv.className = 'chunk';
+      chunkDiv.innerHTML = `<h4>Chunk ${index + 1}</h4><p>${chunk}</p>`;
+      chunksContainer.appendChild(chunkDiv);
+    });
+
+    console.log(`Total Chunks: ${splitChunks.length}`);
+  });
+</script>
+
+</body>
+</html>

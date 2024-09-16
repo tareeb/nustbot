@@ -13,39 +13,27 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import CreateChatbotForm from '@/components/Forms/CreateChatbotForm';
-import propTypes from 'prop-types';
+import UpdateChatbotForm from '@/components/Forms/UpdateChatbotForm';
+import PropTypes from 'prop-types';
 
 
-const CreateChatbot = ({ setchatbots }) => {
+const UpdateChatbot = ({ chatbot, setChatbot }) => {
   const { csrfToken, handleUnauthorized } = useContext(CsrfTokenContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    chatbotname: "",
-    title: "",
-    prompt: "",
-    isPublic: false,
-    modeltype: "simple"
+    chatbotname: chatbot.name,
+    title: chatbot.title || "",
+    prompt: chatbot.prompt || "",
+    isPublic: chatbot.isPublic || false,
+    modeltype: chatbot.modeltype || "simple"
   });
 
-  const createChatbot = async () => {
-    if (!formData.chatbotname) {
-      toast("Please write a name for chatbot.");
-      return;
-    }
-
-    const nameRegex = /^[A-Za-z]+$/; 
-
-    if (!nameRegex.test(formData.chatbotname)) {
-      toast("Chatbot name can contain only letters");
-      return;
-    }
-    
+  const updateChatbot = async () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/createchatbot/`, {
+      const response = await fetch(`${API_BASE_URL}/updatechatbot/`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -60,25 +48,19 @@ const CreateChatbot = ({ setchatbots }) => {
           return;
         }
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create new chatbot");
+        throw new Error(errorData.message || "Failed to update chatbot");
       }
     
       const data = await response.json();
       setIsOpen(false);
-      setchatbots((prevData) => ([...prevData, data.data]));
-      toast("Chatbot Created Successfully");
+      console.log(data.data)
+      setChatbot(data.data);
+      toast("Chatbot Updated Successfully");
 
     } catch (error) {
-      console.error('Error creating chatbot:', error);
-      toast.error(error.message || "Failed to create new chatbot");
+      console.error('Error updating chatbot:', error);
+      toast.error(error.message || "Failed to update chatbot");
     } finally {
-      setFormData({
-        chatbotname: "",
-        title: "",
-        prompt: "",
-        isPublic: false,
-        modeltype: "simple"
-      });
       setIsLoading(false);
     }
   };
@@ -86,22 +68,22 @@ const CreateChatbot = ({ setchatbots }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Create</Button>
+        <Button onClick={() => setIsOpen(true)}>Update</Button>
       </DialogTrigger>
       
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create New Chatbot</DialogTitle>
+          <DialogTitle>Update Chatbot</DialogTitle>
           <DialogDescription>
-            Please fill in the details for your new chatbot.
+            Update the details for your chatbot.
           </DialogDescription>
         </DialogHeader>
 
-        <CreateChatbotForm formData={formData} setFormData={setFormData} />
+        <UpdateChatbotForm formData={formData} setFormData={setFormData} />
       
         <DialogFooter>
-          <Button onClick={createChatbot} disabled={isLoading}>
-            {isLoading ? "Creating..." : "Create"}
+          <Button onClick={updateChatbot} disabled={isLoading}>
+            {isLoading ? "Updating..." : "Update"}
           </Button>
 
           <DialogClose asChild>
@@ -115,8 +97,15 @@ const CreateChatbot = ({ setchatbots }) => {
   );
 };
 
-CreateChatbot.propTypes = {
-  setchatbots: propTypes.func.isRequired,
-}
+UpdateChatbot.propTypes = {
+    chatbot: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      prompt: PropTypes.string,
+      isPublic: PropTypes.bool,
+      modeltype: PropTypes.oneOf(['simple', 'advanced']),
+    }).isRequired,
+    setChatbot: PropTypes.func.isRequired,
+};
 
-export default CreateChatbot;
+export default UpdateChatbot;

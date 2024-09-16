@@ -6,7 +6,7 @@ import CreateChatbot from "@/components/Dailog/CreateChatbot";
 import ButtonContainer from "@/components/Containers/ButtonContainer";
 import { Button } from "@/components/ui/button";
 import useLogout from "@/hooks/useLogout";
-
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const Admin = () => {
@@ -23,7 +23,12 @@ const Admin = () => {
                 <div>
                     <div className="px-4 md:px-10 lg:px-40 py-8">
                         <ButtonContainer title="Create a New Chatbot">
-                            <CreateChatbot setchatbots={setchatbots} />
+                            <div className="md:flex-row flex flex-col gap-5">
+                                <Button asChild>
+                                    <Link to="/browseall" >Browse All</Link>
+                                </Button>
+                                <CreateChatbot setchatbots={setchatbots} />
+                            </div>
                         </ButtonContainer>
                     </div>
                     <div className="px-4 md:px-10 lg:px-40 py-8">

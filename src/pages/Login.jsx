@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import LoginForm from '@/components/login/LoginForm';
+import LoginForm from '@/components/Forms/LoginForm';
 
 import API_BASE_URL from "@/config"
 import { useContext } from 'react';
@@ -32,6 +32,7 @@ export default function Login() {
   });
 
   const [formErrors, setFormErrors] = useState([]);
+  const [loading , SetLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +46,7 @@ export default function Login() {
     e.preventDefault();
     console.log(formData)
     try {
-
+      SetLoading(true);
       schema.parse(formData);
       setFormErrors([]);
 
@@ -57,6 +58,8 @@ export default function Login() {
         setFormErrors(error.errors);
       }
 
+    } finally{
+      SetLoading(false);
     }
   };
 
@@ -112,6 +115,7 @@ export default function Login() {
             formErrors={formErrors}
             handleChange={handleChange}
             formData={formData}
+            loading={loading}
           />
           
   )

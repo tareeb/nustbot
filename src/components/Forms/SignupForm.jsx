@@ -6,21 +6,44 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import background from "@/assets/background.webp"
+import MoonLoader from "react-spinners/MoonLoader";
 
 
-
-const LoginForm = ({ onSubmit, formErrors, handleChange, formData }) => {
+const SignupForm = ({ onSubmit, loading , formErrors, handleChange, formData }) => {
     return (
     <div className="w-full lg:grid lg:grid-cols-2 h-screen">
+
+        <div className="hidden bg-muted lg:block">
+        <img
+          src={background}
+          alt="Image"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
+      </div>
+
         <div className="flex items-center justify-center py-12 p-8 h-screen">
             <div className="mx-auto grid w-[350px] gap-6">
                 <div className="grid gap-2 text-center">
-                    <h1 className="text-3xl font-bold">Login</h1>
+                    <h1 className="text-3xl font-bold">Signup</h1>
                     <p className="text-balance text-muted-foreground">
-                    Enter your Credentials below to login
+                    Where conversation meets information
                     </p>
                 </div>
             <div className="grid gap-4">
+                <div className="grid gap-2">
+                <Label htmlFor="Email">Email</Label>
+                <Input
+                    id="Email"
+                    type="email"
+                    placeholder="email@email.com"
+                    name="Email"
+                    required
+                    value={formData.Email}
+                    onChange={handleChange}
+                />
+                </div>
                 <div className="grid gap-2">
                 <Label htmlFor="Username">Username</Label>
                 <Input
@@ -34,12 +57,7 @@ const LoginForm = ({ onSubmit, formErrors, handleChange, formData }) => {
                 />
                 </div>
                 <div className="grid gap-2">
-                    <div className="flex items-center">
-                        <Label htmlFor="Password">Password</Label>
-                        <Link to="/forgot-password" className="ml-auto inline-block text-sm underline">
-                        Forgot your password?
-                        </Link>
-                    </div>
+                <Label htmlFor="Password">Password</Label>        
                 <Input 
                     id="Password" 
                     type="password" 
@@ -49,42 +67,45 @@ const LoginForm = ({ onSubmit, formErrors, handleChange, formData }) => {
                     onChange={handleChange}
                 />
                 </div>
+                <div className="grid gap-2">
+                <Label htmlFor="ConfirmPassword">Confirm Password</Label>        
+                <Input 
+                    id="ConfirmPassword" 
+                    type="Password" 
+                    required
+                    name="ConfirmPassword"
+                    value={formData.ConfirmPassword}
+                    onChange={handleChange}
+                />
+                </div>
                 <div className="text-red-500 text-xs flex flex-col">
                 {formErrors.map((error, index) => (
                     <span key={index}>{error.path[0]} : {error.message}</span>
                 ))}
                 </div>
-                <Button onClick={onSubmit} className="w-full">
-                Login
+                <Button onClick={onSubmit} disabled={loading} className="w-full">
+                    {loading ? <MoonLoader color="#ffffff" size={20}></MoonLoader> : <p>Signup</p> }
                 </Button>
             </div>
         <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link to="/signup" className="underline">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="underline">
+              Login
             </Link>
           </div>
         </div>
-      </div>
-      <div className="hidden bg-muted lg:block">
-        <img
-          src={background}
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
     );
 }
 
 
-LoginForm.propTypes = {
+SignupForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     formErrors: PropTypes.array.isRequired,
     handleChange: PropTypes.func.isRequired,
-    formData: PropTypes.object.isRequired
+    formData: PropTypes.object.isRequired,
+    loading:PropTypes.bool.isRequired,
 };
   
-export default LoginForm;
+export default SignupForm;

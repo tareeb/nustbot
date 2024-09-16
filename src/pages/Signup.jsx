@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-import SignupForm from '@/components/signup/SignupForm';
+import SignupForm from '@/components/Forms/SignupForm';
 
 import API_BASE_URL from "@/config"
 import { useContext } from 'react';
@@ -41,6 +41,7 @@ export default function Signup() {
   });
 
   const [formErrors, setFormErrors] = useState([]);
+  const [loading , SetLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +54,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData)
+    SetLoading(true)
     try {
 
       schema.parse(formData);
@@ -67,6 +69,8 @@ export default function Signup() {
         setFormErrors(error.errors);
       }
 
+    }finally{
+      SetLoading(false);
     }
   };
 
@@ -118,6 +122,7 @@ export default function Signup() {
             formErrors={formErrors}
             handleChange={handleChange}
             formData={formData}
+            loading={loading}
           />
           
   )

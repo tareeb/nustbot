@@ -3,15 +3,14 @@ import { BrowserRouter as Router, Routes , Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/sonner"
 
 import Chat from "@/pages/Chat"
-import ChatAdvanced from "@/pages/ChatAdvanced"
 import Chatbot from "@/pages/Chatbot"
-import Test from "@/pages/Test"
 import NotFound from '@/pages/NotFound';
 import Login  from '@/pages/Login';
 import Signup from '@/pages/Signup';
 import Admin from '@/pages/Admin';
 import Home from '@/pages/Home';
 import BrowseAll from '@/pages/BrowseAll';
+import FaqsPage from '@/pages/Faqs';
 
 import { CsrfTokenProvider } from "@/context/CsrfTokenContext";
 
@@ -31,10 +30,9 @@ function App() {
               <Route path="/chatbot/:chatbotname"   element={<Chatbot></Chatbot>} />
               
               <Route path="/browseall"              element={<BrowseAll></BrowseAll>}  />
-              <Route path="/chat/:chatbotname"         element={<Chat></Chat>}   />
-              <Route path="/chatadvanced/:chatbotname" element={<ChatAdvanced></ChatAdvanced>} />
-              
-              <Route path="/test"                   element={<Test></Test>}         />
+              <Route path="/chat/:chatbotname"      element={<Chat></Chat>}   />       
+
+              <Route path="/faqs"                   element={<FaqsPage></FaqsPage>}    />   
               <Route path="*"                       element={<NotFound></NotFound>} />     
               
           </Routes>

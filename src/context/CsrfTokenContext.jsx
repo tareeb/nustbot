@@ -29,7 +29,7 @@ export const CsrfTokenProvider = ({ children }) => {
 
 
   return (
-    <CsrfTokenContext.Provider value={{ csrfToken, setCsrfToken , logout , handleUnauthorized}}>
+    <CsrfTokenContext.Provider value={{ csrfToken, setCsrfToken , logout , handleUnauthorized }}>
       {children}
     </CsrfTokenContext.Provider>
   );

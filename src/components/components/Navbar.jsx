@@ -33,18 +33,23 @@ const Navbar = () => {
 
   return (
     <nav>
-      <section className="w-full px-2 lg:px-8 text-gray-700 bg-white">
-        <div className="container flex flex-wrap items-center justify-between py-2 lg:py-5 mx-auto md:flex-row max-w-7xl">
+      <section className="w-full px-2 lg:px-8 text-gray-700 bg-sky-50">
+        <div className="container flex flex-wrap items-center justify-between py-2 lg:py-2 mx-auto md:flex-row max-w-7xl">
           
           <div className="relative flex flex-col md:flex-row">
             
-                <div className="max-h-12 max-w-12">
-                    <img src={logo} alt="Logo" />
+                <div className="max-h-10 max-w-10">
+                    <Link to="/ " className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">
+                       <img src={logo} alt="Logo" />
+                    </Link>
                 </div>
             
                 <nav className="hidden md:flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
                     <Link to="/browseall" className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">
                         Browse All
+                    </Link>
+                    <Link to="/faqs " className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">
+                        FAQS
                     </Link>
                 </nav>
           </div>
@@ -57,7 +62,7 @@ const Navbar = () => {
                     Logout
                 </Button>
                 <Link to="/admin" className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
-                    Home
+                    Admin
                 </Link>
               </div>
             ) : 
@@ -95,6 +100,9 @@ const Navbar = () => {
                 <Link to="/admin" className='font-medium leading-6 text-gray-600 hover:text-gray-900'>
                     Admin
                 </Link>
+                <Link to="/faqs " className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">
+                        FAQS
+                </Link>
                 <p className='font-medium leading-6 text-gray-600 hover:text-gray-900 cursor-pointer'
                         onClick={logout}>
                     Logout
@@ -111,6 +119,9 @@ const Navbar = () => {
               </Link>
               <Link to="/login" className="font-medium leading-6 text-gray-600 hover:text-gray-900">
                 Sign in
+              </Link>
+              <Link to="/faqs " className="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">
+                FAQS
               </Link>
               <Link to="/signup" className="font-medium leading-6 text-gray-600 hover:text-gray-900">
                 Sign up

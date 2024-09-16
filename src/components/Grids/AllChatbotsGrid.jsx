@@ -4,10 +4,13 @@ import { toast } from "sonner";
 import { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-import propTypes from 'prop-types';
+import { useState } from 'react';
 
-const AllChatbotsGrid = ({chatbots , setchatbots}) => {
+import { Button } from "@/components/ui/button"
 
+const AllChatbotsGrid = () => {
+
+    const [chatbots, setchatbots] = useState([]);
 
     useEffect(() => {
         getChatbots();
@@ -50,13 +53,12 @@ const AllChatbotsGrid = ({chatbots , setchatbots}) => {
                                 space-y-4"
                                 >
                             <h1 className="text-2xl font-bold select-none">{chatbot.name}</h1>
+                            <h2 className="text-lg  font-semibold select-none">{chatbot.title}</h2>
                             
                             <div className="space-y-2 flex flex-col">
-                                <Link   className="bg-cyan-700 text-white border border-black  rounded-full py-1 px-2  text-sm hover:bg-black"
-                                        to={`/chat/${chatbot.name}`}>SwiftChat</Link>
-                                
-                                <Link   className="bg-cyan-700 text-white border border-black  rounded-full py-1 px-2  text-sm hover:bg-black"
-                                to={`/chatadvanced/${chatbot.name}`}>AdvancedChat</Link>
+                                <Button asChild>
+                                     <Link to={`/chat/${chatbot.name}`}>Chat</Link>
+                                </Button>
                             </div>
                         </div>
                     ))
@@ -67,10 +69,6 @@ const AllChatbotsGrid = ({chatbots , setchatbots}) => {
     );
 };
 
-AllChatbotsGrid.propTypes = {
-    chatbots: propTypes.array.isRequired,
-    setchatbots: propTypes.func.isRequired,
-};
 
 export default AllChatbotsGrid;
 

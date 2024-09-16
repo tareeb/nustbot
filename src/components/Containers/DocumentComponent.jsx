@@ -63,7 +63,7 @@ const DocumentComponent = () => {
             <ButtonContainer title="Add New Document in Knowledge Base">
                 <PdfInput setDocuments={setDocuments} />
             </ButtonContainer>
-        
+            
             <div>
                 <DocContainers documents={documents} removeDocument={removeDocument} />
             </div>

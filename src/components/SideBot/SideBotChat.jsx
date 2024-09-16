@@ -4,9 +4,10 @@ import API_BASE_URL from "@/config"
 import { useState } from "react"
 
 import { toast } from "sonner";
+import PropTypes from 'prop-types';
 
 
-function SideBotChat() {
+function SideBotChat({chatbotname}) {
 
     const [ input , setInput] = useState("")
     const [ messages , setMessages] = useState([])
@@ -33,7 +34,9 @@ function SideBotChat() {
 
         setLoading(true);
 
-        const response = await fetch(`${API_BASE_URL}/customerservicebot/chat/`, {
+        const url = `${API_BASE_URL}/${chatbotname}/publicchat/`
+
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -67,7 +70,7 @@ function SideBotChat() {
     
 
     return (
-        <div className="px-2 h-full bg-slate-200 ">
+        <div className="px-2 h-full bg-sky-100 ">
           <ChatBox 
               setInput={setInput}
               messages={messages}
@@ -79,6 +82,10 @@ function SideBotChat() {
         </div>
     )
   }
+
+SideBotChat.propTypes = {
+    chatbotname: PropTypes.string.isRequired
+};
   
-  export default SideBotChat
+export default SideBotChat
   

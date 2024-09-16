@@ -101,7 +101,7 @@ const CreateChatbot = ({chatbotname}) => {
         <DialogHeader>
           <DialogTitle>Delete Chatbot</DialogTitle>
           <DialogDescription>
-            Please write the chatbot name to confirm deletion.
+            Please write the chatbot ID to confirm deletion.
           </DialogDescription>
         </DialogHeader>
 

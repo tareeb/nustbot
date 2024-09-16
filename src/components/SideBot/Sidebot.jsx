@@ -4,7 +4,9 @@ import { useState } from 'react';
 
 import logo from "@/assets/logo_top_1.png";
 
-const Sidebot = () => {
+import PropTypes from 'prop-types';
+
+const Sidebot = ({chatbotname , title}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebot = () => {
@@ -25,9 +27,9 @@ const Sidebot = () => {
       </img>}
 
       {/* Chatbot window */}  
-      <div className={`fixed z-20 bottom-10 right-10  bg-white shadow-lg rounded-xl border border-gray-300 overflow-hidden transition-transform duration-500 transform ${isOpen ? 'translate-x-0' : 'translate-x-[400px]'}`}>   
-          <div className="flex justify-between items-center bg-cyan-700 text-white p-2 rounded-t-lg">
-            <h2 className="text-lg">CustomSupportBot</h2>
+      <div className={`fixed z-20 bottom-10 right-10  bg-white shadow-lg rounded-xl border border-black overflow-hidden transition-transform duration-500 transform ${isOpen ? 'translate-x-0' : 'translate-x-[400px]'}`}>   
+          <div className="flex justify-between items-center bg-slate-800 text-white p-2 rounded-t-lg">
+            <h2 className="text-lg">{title}</h2>
             <button
               className="text-lg font-bold focus:outline-none"
               onClick={toggleSidebot}
@@ -36,13 +38,18 @@ const Sidebot = () => {
             </button>
           </div>
           <div className="h-96 w-64">
-            <SideBotChat />
+            <SideBotChat chatbotname={chatbotname} />
           </div>
         </div>
       
       
     </div>
   );
+};
+
+Sidebot.propTypes = {
+  chatbotname: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default Sidebot;
